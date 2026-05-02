@@ -50,37 +50,137 @@ if css_path:
 # Extra CSS for this page
 st.markdown("""
 <style>
-    .bt-header {
-        font-size: 2.2rem; font-weight: 700;
-        color: #1a1a2e; text-align: center; padding: 1rem 0 0.2rem;
-    }
-    .bt-sub {
-        font-size: 0.95rem; color: #666;
-        text-align: center; margin-bottom: 1.5rem;
-    }
-    .pred-card {
-        border-radius: 14px; padding: 1.4rem;
-        color: white; text-align: center; margin: 1rem 0;
-    }
-    .pred-label {
-        font-size: 1.8rem; font-weight: 700;
-        text-transform: uppercase; letter-spacing: 2px;
-    }
-    .pred-conf { font-size: 1rem; opacity: 0.9; margin-top: 0.3rem; }
-    .metric-box {
-        background: #f8f9fa; border-left: 4px solid #6c63ff;
-        border-radius: 8px; padding: 0.7rem 1rem; margin: 0.3rem 0;
-    }
-    .metric-label { font-size: 0.75rem; color: #888; font-weight: 500; }
-    .metric-value { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; }
-    .disclaimer {
-        background: #fff3cd; border: 1px solid #ffc107;
-        border-radius: 8px; padding: 0.7rem 1rem;
-        font-size: 0.82rem; color: #856404; margin-top: 1rem;
-    }
+
+/* ===== GLOBAL ===== */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== HEADER ===== */
+.bt-header {
+    font-size: 2.6rem;
+    font-weight: 800;
+    text-align: center;
+    padding: 1rem 0;
+
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    letter-spacing: 1px;
+}
+
+.bt-sub {
+    font-size: 1rem;
+    text-align: center;
+    color: #bbbbbb;
+    margin-bottom: 1.8rem;
+}
+
+/* ===== PREDICTION CARD ===== */
+.pred-card {
+    border-radius: 16px;
+    padding: 1.6rem;
+    text-align: center;
+    margin: 1rem 0;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.pred-label {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+}
+
+.pred-conf {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* ===== METRIC BOX ===== */
+.metric-box {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #00c6ff;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin: 0.4rem 0;
+
+    backdrop-filter: blur(10px);
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
+.metric-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ===== DISCLAIMER ===== */
+.disclaimer {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    color: #ffd54f;
+}
+
+/* ===== SUCCESS BOX ===== */
+div[data-testid="stAlert"] {
+    background: linear-gradient(135deg, #00c853, #64dd17);
+    color: white !important;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+}
+
+/* ===== BUTTON ===== */
+.stButton>button {
+    background: linear-gradient(90deg, #0072ff, #00c6ff);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.stButton>button:hover {
+    opacity: 0.9;
+}
+
+/* ===== FILE UPLOADER ===== */
+section[data-testid="stFileUploader"] {
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+/* ===== SIDEBAR ===== */
+section[data-testid="stSidebar"] {
+    background: rgba(20,20,30,0.9);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 # ─────────────────────────────────────────────
 # CONSTANTS
 # ─────────────────────────────────────────────
