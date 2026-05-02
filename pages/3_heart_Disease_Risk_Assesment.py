@@ -1,15 +1,17 @@
+import os
+import warnings
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle as pkl
 from PIL import Image
-import io
 from lightgbm import LGBMClassifier
 import category_encoders as ce
 from imblearn.ensemble import EasyEnsembleClassifier
 import shap
 import plotly.express as px
-import warnings
+
 warnings.simplefilter(action='ignore', category=UserWarning)
 
 
@@ -23,8 +25,6 @@ with open('models/third_feature_models/cbe_encoder.pkl', 'rb') as encoder_file:
 # Load the dataset for reference
 data = pd.read_csv('models/third_feature_models/brfss2022_data_wrangling_output.zip', compression='zip')
 data['heart_disease'] = data['heart_disease'].apply(lambda x: 1 if x == 'yes' else 0).astype('int')
-
-import os
 
 icon_path = "utils/heart_disease.jpg"
 if os.path.exists(icon_path):
@@ -161,16 +161,27 @@ input_data = {
     'sleep_category': sleep_category,
     'drinks_category': drinks_category
 }
-def get_encoder_feature_names(encoder):
-    """category_encoders uses get_feature_names() not get_feature_names_out()"""
+def get_encoder_feature_names(encoder, input_df):
+    """
+    Safely get feature names after encoding.
+    category_encoders .transform() returns a DataFrame directly — use its columns.
+    Avoids calling get_feature_names() which requires the encoder to expose internal state.
+    """
+    encoded = encoder.transform(input_df.copy())
+    if isinstance(encoded, pd.DataFrame):
+        return list(encoded.columns), encoded
+    # fallback: try method calls
     if hasattr(encoder, 'get_feature_names_out'):
-        return encoder.get_feature_names_out()
-    return encoder.get_feature_names()
+        cols = list(encoder.get_feature_names_out())
+    elif hasattr(encoder, 'get_feature_names'):
+        cols = list(encoder.get_feature_names())
+    else:
+        cols = [f"f{i}" for i in range(encoded.shape[1])]
+    return cols, pd.DataFrame(encoded, columns=cols)
 
 def predict_heart_disease_risk(input_data, model, encoder):
     input_df = pd.DataFrame([input_data])
-    feature_names = get_encoder_feature_names(encoder)
-    input_encoded = pd.DataFrame(encoder.transform(input_df), columns=feature_names)
+    feature_names, input_encoded = get_encoder_feature_names(encoder, input_df)
     input_encoded = input_encoded.reindex(columns=feature_names, fill_value=0)
     prediction = model.predict_proba(input_encoded)[:, 1][0] * 100
     return prediction
@@ -190,9 +201,8 @@ if btn1:
         with row8_1:
             st.write(f"Predicted Heart Disease Risk: {risk:.2f}%")
             input_df = pd.DataFrame([input_data])
-            input_encoded = encoder.transform(input_df)
-            if not isinstance(input_encoded, pd.DataFrame):
-                input_encoded = pd.DataFrame(input_encoded, columns=get_encoder_feature_names(encoder))
+            # Re-use get_encoder_feature_names which safely derives columns from transform output
+            _, input_encoded = get_encoder_feature_names(encoder, input_df)
 
             # Access LGBMClassifier inside EasyEnsembleClassifier
             lgbm_model = model.estimators_[0].steps[-1][1]
