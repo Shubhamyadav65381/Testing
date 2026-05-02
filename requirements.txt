@@ -1,13 +1,15 @@
 # Core
 streamlit==1.46.1
-numpy==1.24.3
+numpy==1.26.4
 pandas==2.0.3
 pillow==10.0.1
 matplotlib==3.7.2
 seaborn==0.12.2
 
 # ML / Deep Learning
-tensorflow-cpu==2.13.0
+# tensorflow-cpu 2.13 is INCOMPATIBLE with groq/langchain (typing-extensions conflict).
+# Upgraded to 2.16.x which relaxes the typing-extensions constraint.
+tensorflow-cpu==2.16.2
 scikit-learn==1.6.1
 lightgbm==4.3.0
 imbalanced-learn==0.12.3
@@ -33,6 +35,9 @@ faiss-cpu==1.8.0
 nest_asyncio==1.6.0
 python-dotenv==1.0.1
 sentence-transformers==2.7.0
+
+# Shared dependency — explicitly pinned to satisfy all packages above
+typing-extensions==4.12.2
 
 # Model download
 gdown==4.7.1
