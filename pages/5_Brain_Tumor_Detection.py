@@ -1,6 +1,6 @@
 """
 pages/5_Brain_Tumor_Detection.py
-Brain Tumor MRI Classification — Netflix-grade cinematic UI
+Brain Tumor MRI Classification 
 Model downloads from Google Drive on first run (not stored in GitHub)
 """
 
@@ -31,7 +31,7 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
-# NETFLIX-GRADE CINEMATIC CSS
+# CSS
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -737,7 +737,7 @@ URGENCY = {
 }
 
 # ─────────────────────────────────────────────
-# MODEL LOADING  (logic unchanged)
+# MODEL LOADING  
 # ─────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_model():
@@ -804,7 +804,7 @@ def load_metadata():
     return labels, info
 
 # ─────────────────────────────────────────────
-# PREPROCESSING  (unchanged)
+# PREPROCESSING  
 # ─────────────────────────────────────────────
 def preprocess(img: Image.Image) -> np.ndarray:
     img = img.convert("RGB").resize(IMAGE_SIZE)
@@ -816,7 +816,7 @@ def preprocess(img: Image.Image) -> np.ndarray:
     return np.expand_dims(arr, 0)
 
 # ─────────────────────────────────────────────
-# GRADCAM  (unchanged)
+# GRADCAM  
 # ─────────────────────────────────────────────
 def gradcam(model, arr, layer="block5_conv3"):
     try:
@@ -959,7 +959,7 @@ with st.sidebar:
         )
 
 # ─────────────────────────────────────────────
-# MAIN — HERO
+# MAIN 
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class='ns-hero'>
