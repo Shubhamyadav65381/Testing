@@ -138,10 +138,9 @@ def load_model():
     if not os.path.exists(MODEL_PATH):
         with st.spinner("⬇️ Downloading Brain Tumor model from Drive (first run only)..."):
             try:
-                gdown.download(
-                    f"https://drive.google.com/uc?id={MODEL_DRIVE_ID}",
-                    MODEL_PATH, quiet=False
-                )
+                # gdown 5.x: use fuzzy=True to handle all Drive URL formats
+                url = f"https://drive.google.com/uc?id={MODEL_DRIVE_ID}"
+                gdown.download(url, MODEL_PATH, quiet=False, fuzzy=True)
             except Exception as e:
                 st.error(f"Download failed: {e}")
                 return None
