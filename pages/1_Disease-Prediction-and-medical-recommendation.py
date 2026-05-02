@@ -12,7 +12,7 @@ st.set_page_config(
     layout='wide'
 )
 
-# ── Custom CSS ────────────────────────────────────────────────────────────────
+# Custom CSS 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
@@ -105,6 +105,15 @@ div[data-testid="stButton"] > button:hover {
     height: 2px;
     background: linear-gradient(90deg, #20c4b4, #0d7a70, transparent);
 }
+.assessment-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a8a;
+    margin: 0 0 4px 0;
+}
 .disease-name {
     font-family: 'Syne', sans-serif;
     font-size: 2rem;
@@ -112,6 +121,12 @@ div[data-testid="stButton"] > button:hover {
     color: #ffffff;
     margin: 0 0 4px 0;
     line-height: 1.2;
+}
+.symptoms-analyzed {
+    font-family: 'DM Mono', monospace;
+    color: #4a6a8a;
+    font-size: 12px;
+    margin: 6px 0 0 0;
 }
 .info-card {
     background: #0a1220;
@@ -132,6 +147,7 @@ div[data-testid="stButton"] > button:hover {
     color: #a0b8d0;
     font-size: 13.5px;
     line-height: 1.7;
+    font-family: 'DM Mono', monospace;
 }
 .tag {
     display: inline-block;
@@ -158,6 +174,7 @@ div[data-testid="stButton"] > button:hover {
     color: #a06060;
     font-size: 12px;
     line-height: 1.6;
+    font-family: 'DM Mono', monospace;
 }
 .stSpinner > div { border-top-color: #20c4b4 !important; }
 </style>
@@ -173,9 +190,9 @@ st.sidebar.markdown("<p class='sidebar-text'>Neuro-Fusion analyzes symptoms usin
 st.sidebar.markdown("""
 <div style='margin-top:20px; padding:14px; background:#0a1220; border:1px solid #1a2e4a; border-radius:8px;'>
 <p style='color:#20c4b4; font-family:Syne,sans-serif; font-weight:700; font-size:13px; margin:0 0 8px 0;'>⚙️ INTELLIGENCE LAYERS</p>
-<p style='color:#4a6a8a; font-size:12px; margin:4px 0;'>🔵 ML Model — RandomForest (132 symptoms)</p>
-<p style='color:#4a6a8a; font-size:12px; margin:4px 0;'>📚 Book KB — 7 Medical Books via FAISS</p>
-<p style='color:#4a6a8a; font-size:12px; margin:4px 0;'>🔀 Fusion — Both sources merged seamlessly</p>
+<p style='color:#4a6a8a; font-size:12px; margin:4px 0; font-family:DM Mono,monospace;'>🔵 ML Model — RandomForest (132 symptoms)</p>
+<p style='color:#4a6a8a; font-size:12px; margin:4px 0; font-family:DM Mono,monospace;'>📚 Book KB — 7 Medical Books via FAISS</p>
+<p style='color:#4a6a8a; font-size:12px; margin:4px 0; font-family:DM Mono,monospace;'>🔀 Fusion — Both sources merged seamlessly</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -256,12 +273,12 @@ Be medically precise but use plain language. End with: "Please consult a license
     except Exception as e:
         return None
 
-# ── Symptom Maps ──────────────────────────────────────────────────────────────
+# Symptom Maps 
 symptoms_list = {'itching': 0, 'skin_rash': 1, 'nodal_skin_eruptions': 2, 'continuous_sneezing': 3, 'shivering': 4, 'chills': 5, 'joint_pain': 6, 'stomach_pain': 7, 'acidity': 8, 'ulcers_on_tongue': 9, 'muscle_wasting': 10, 'vomiting': 11, 'burning_micturition': 12, 'spotting_ urination': 13, 'fatigue': 14, 'weight_gain': 15, 'anxiety': 16, 'cold_hands_and_feets': 17, 'mood_swings': 18, 'weight_loss': 19, 'restlessness': 20, 'lethargy': 21, 'patches_in_throat': 22, 'irregular_sugar_level': 23, 'cough': 24, 'high_fever': 25, 'sunken_eyes': 26, 'breathlessness': 27, 'sweating': 28, 'dehydration': 29, 'indigestion': 30, 'headache': 31, 'yellowish_skin': 32, 'dark_urine': 33, 'nausea': 34, 'loss_of_appetite': 35, 'pain_behind_the_eyes': 36, 'back_pain': 37, 'constipation': 38, 'abdominal_pain': 39, 'diarrhoea': 40, 'mild_fever': 41, 'yellow_urine': 42, 'yellowing_of_eyes': 43, 'acute_liver_failure': 44, 'fluid_overload': 45, 'swelling_of_stomach': 46, 'swelled_lymph_nodes': 47, 'malaise': 48, 'blurred_and_distorted_vision': 49, 'phlegm': 50, 'throat_irritation': 51, 'redness_of_eyes': 52, 'sinus_pressure': 53, 'runny_nose': 54, 'congestion': 55, 'chest_pain': 56, 'weakness_in_limbs': 57, 'fast_heart_rate': 58, 'pain_during_bowel_movements': 59, 'pain_in_anal_region': 60, 'bloody_stool': 61, 'irritation_in_anus': 62, 'neck_pain': 63, 'dizziness': 64, 'cramps': 65, 'bruising': 66, 'obesity': 67, 'swollen_legs': 68, 'swollen_blood_vessels': 69, 'puffy_face_and_eyes': 70, 'enlarged_thyroid': 71, 'brittle_nails': 72, 'swollen_extremeties': 73, 'excessive_hunger': 74, 'extra_marital_contacts': 75, 'drying_and_tingling_lips': 76, 'slurred_speech': 77, 'knee_pain': 78, 'hip_joint_pain': 79, 'muscle_weakness': 80, 'stiff_neck': 81, 'swelling_joints': 82, 'movement_stiffness': 83, 'spinning_movements': 84, 'loss_of_balance': 85, 'unsteadiness': 86, 'weakness_of_one_body_side': 87, 'loss_of_smell': 88, 'bladder_discomfort': 89, 'foul_smell_of urine': 90, 'continuous_feel_of_urine': 91, 'passage_of_gases': 92, 'internal_itching': 93, 'toxic_look_(typhos)': 94, 'depression': 95, 'irritability': 96, 'muscle_pain': 97, 'altered_sensorium': 98, 'red_spots_over_body': 99, 'belly_pain': 100, 'abnormal_menstruation': 101, 'dischromic _patches': 102, 'watering_from_eyes': 103, 'increased_appetite': 104, 'polyuria': 105, 'family_history': 106, 'mucoid_sputum': 107, 'rusty_sputum': 108, 'lack_of_concentration': 109, 'visual_disturbances': 110, 'receiving_blood_transfusion': 111, 'receiving_unsterile_injections': 112, 'coma': 113, 'stomach_bleeding': 114, 'distention_of_abdomen': 115, 'history_of_alcohol_consumption': 116, 'fluid_overload.1': 117, 'blood_in_sputum': 118, 'prominent_veins_on_calf': 119, 'palpitations': 120, 'painful_walking': 121, 'pus_filled_pimples': 122, 'blackheads': 123, 'scurring': 124, 'skin_peeling': 125, 'silver_like_dusting': 126, 'small_dents_in_nails': 127, 'inflammatory_nails': 128, 'blister': 129, 'red_sore_around_nose': 130, 'yellow_crust_ooze': 131}
 diseases_list = {15: 'Fungal infection', 4: 'Allergy', 16: 'GERD', 9: 'Chronic cholestasis', 14: 'Drug Reaction', 33: 'Peptic ulcer diseae', 1: 'AIDS', 12: 'Diabetes ', 17: 'Gastroenteritis', 6: 'Bronchial Asthma', 23: 'Hypertension ', 30: 'Migraine', 7: 'Cervical spondylosis', 32: 'Paralysis (brain hemorrhage)', 28: 'Jaundice', 29: 'Malaria', 8: 'Chicken pox', 11: 'Dengue', 37: 'Typhoid', 40: 'hepatitis A', 19: 'Hepatitis B', 20: 'Hepatitis C', 21: 'Hepatitis D', 22: 'Hepatitis E', 3: 'Alcoholic hepatitis', 36: 'Tuberculosis', 10: 'Common Cold', 34: 'Pneumonia', 13: 'Dimorphic hemmorhoids(piles)', 18: 'Heart attack', 39: 'Varicose veins', 26: 'Hypothyroidism', 24: 'Hyperthyroidism', 25: 'Hypoglycemia', 31: 'Osteoarthristis', 5: 'Arthritis', 0: '(vertigo) Paroymsal  Positional Vertigo', 2: 'Acne', 38: 'Urinary tract infection', 35: 'Psoriasis', 27: 'Impetigo'}
 symptoms_list_processed = {s.replace('_', ' ').lower(): v for s, v in symptoms_list.items()}
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+#  Helpers 
 def get_ml_info(disease):
     try:
         desc = description.loc[description['Disease'] == disease, 'Description'].values[0]
@@ -272,16 +289,6 @@ def get_ml_info(disease):
         return desc, prec, meds, diet, work
     except:
         return "Not available.", [], [], [], []
-
-def predict_ml(patient_symptoms):
-    try:
-        vec = np.zeros(len(symptoms_list_processed))
-        for s in patient_symptoms:
-            if s in symptoms_list_processed:
-                vec[symptoms_list_processed[s]] = 1
-        return diseases_list.get(model.predict([vec])[0], None)
-    except:
-        return None
 
 def correct_spelling(symptom):
     try:
@@ -298,7 +305,7 @@ def tags_html(items, color="#8ab0d0"):
         for i in items if str(i).strip() and str(i) != 'nan'
     )
 
-# ── Page Header ───────────────────────────────────────────────────────────────
+# Page Header 
 st.markdown("""
 <div class='page-header'>
     <h1>NEURO<span>FUSION</span></h1>
@@ -306,14 +313,13 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── Tabs ──────────────────────────────────────────────────────────────────────
+# Tabs
 tab1, tab2 = st.tabs(["⬡ SYMPTOM ANALYSIS", "◈ DISEASE ENCYCLOPEDIA"])
 
-# ════════════════════════════════════════════════════════════════════════════════
-# TAB 1 — Symptom Analysis (ML + Book KB fused invisibly)
-# ════════════════════════════════════════════════════════════════════════════════
+# TAB 1 — Symptom Analysis (RAG-first, ML bypassed for display)
+
 with tab1:
-    st.markdown("<p style='color:#4a6a8a; font-size:13px; margin-bottom:20px;'>Enter any symptoms. The system silently fuses ML prediction with 7 real medical books to deliver a complete clinical picture.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#4a6a8a; font-size:13px; margin-bottom:20px; font-family:DM Mono,monospace;'>Enter any symptoms. The system silently fuses ML prediction with 7 real medical books to deliver a complete clinical picture.</p>", unsafe_allow_html=True)
 
     user_input = st.text_area("", placeholder="e.g., headache, nausea, high fever, chest pain, breathlessness ...", height=90, label_visibility="collapsed")
 
@@ -327,64 +333,45 @@ with tab1:
         valid_symptoms = [s for s in valid_symptoms if s]
 
         with st.spinner("Analyzing symptoms..."):
-            # Step 1: ML prediction
-            predicted_disease = predict_ml(valid_symptoms) if valid_symptoms else None
 
-            # Step 2: Book KB answer (always, using ML result or raw symptoms as query)
+            # ── BYPASSED: ML prediction skipped for display ──
+            # Always use raw symptoms as the RAG query for accurate results
+            # (ML model will be retrained in future iterations)
+            query = ", ".join(raw[:5])
+
+            # ── Book KB answer via FAISS + Groq ──
             chain = load_medibot_chain()
             book_answer, book_sources = None, []
-            query = predicted_disease if predicted_disease else ", ".join(raw[:4])
 
             if chain:
                 try:
-                    resp = chain.invoke({'query': f"Clinical analysis for: {query}. Patient symptoms: {', '.join(raw)}"})
+                    resp = chain.invoke({'query': f"Clinical analysis for symptoms: {query}"})
                     book_answer  = resp.get("result", "")
                     book_sources = resp.get("source_documents", [])
                 except:
                     book_answer = None
 
-            # Step 3: ML structured data
-            ml_desc, ml_prec, ml_meds, ml_diet, ml_work = ("", [], [], [], [])
-            if predicted_disease:
-                ml_desc, ml_prec, ml_meds, ml_diet, ml_work = get_ml_info(predicted_disease)
-
-        # ── Render result ──────────────────────────────────────────────────
-        if predicted_disease or book_answer:
-            display_name = predicted_disease or query.title()
+        # Render result 
+        if book_answer:
+            display_symptoms = ', '.join(raw[:5]) + ('...' if len(raw) > 5 else '')
 
             st.markdown(f"""
             <div class='result-wrapper'>
-                <p style='color:#4a6a8a; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin:0 0 4px 0;'>CLINICAL ASSESSMENT</p>
-                <p class='disease-name'>{display_name}</p>
-                <p style='color:#4a6a8a; font-size:12px; margin:6px 0 0 0;'>
-                    Analyzed symptoms: {', '.join(valid_symptoms[:5]) if valid_symptoms else ', '.join(raw[:5])}{'...' if len(raw) > 5 else ''}
+                <p class='assessment-label'>CLINICAL ASSESSMENT</p>
+                <p class='disease-name'>Symptom Analysis</p>
+                <p class='symptoms-analyzed'>
+                    Analyzed symptoms: {display_symptoms}
                 </p>
             </div>
             """, unsafe_allow_html=True)
 
-            # Book-based clinical analysis — primary, detailed answer
-            if book_answer:
-                st.markdown(f"""
-                <div class='info-card'>
-                    <div class='info-card-label' style='color:#20c4b4;'>📋 CLINICAL ANALYSIS</div>
-                    <div class='info-card-content' style='color:#b0c8e0; white-space:pre-wrap; line-height:1.8;'>{book_answer}</div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            # ML structured data — secondary quick reference
-            if predicted_disease and any([ml_prec, ml_meds, ml_diet, ml_work]):
-                st.markdown("<hr class='neo-divider'><p style='color:#4a6a8a; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin:0 0 16px 0;'>⬡ QUICK REFERENCE</p>", unsafe_allow_html=True)
-                col_a, col_b = st.columns(2)
-                with col_a:
-                    if ml_prec:
-                        st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#ffa050;'>🛡 PRECAUTIONS</div><div class='info-card-content'>{tags_html([i for i in ml_prec if i],'#ffa050')}</div></div>", unsafe_allow_html=True)
-                    if ml_meds:
-                        st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#60b0ff;'>💊 MEDICATIONS</div><div class='info-card-content'>{tags_html(ml_meds,'#60b0ff')}</div></div>", unsafe_allow_html=True)
-                with col_b:
-                    if ml_diet:
-                        st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#60d090;'>🥗 DIET</div><div class='info-card-content'>{tags_html(ml_diet,'#60d090')}</div></div>", unsafe_allow_html=True)
-                    if ml_work:
-                        st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#c080ff;'>🏃 ACTIVITY</div><div class='info-card-content'>{tags_html(ml_work,'#c080ff')}</div></div>", unsafe_allow_html=True)
+            # Book-based clinical analysis — primary detailed answer
+            st.markdown(f"""
+            <div class='info-card'>
+                <div class='info-card-label' style='color:#20c4b4;'>📋 CLINICAL ANALYSIS</div>
+                <div class='info-card-content' style='color:#b0c8e0; white-space:pre-wrap; line-height:1.8;'>{book_answer}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
             # Book sources
             if book_sources:
@@ -394,21 +381,20 @@ with tab1:
                     if n and n not in seen:
                         seen.add(n); names.append(n)
                 if names:
-                    st.markdown(f"<p style='color:#2a4a6a; font-size:12px; margin-top:16px;'>📚 Referenced: {' · '.join(names)}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='color:#2a4a6a; font-size:12px; margin-top:16px; font-family:DM Mono,monospace;'>📚 Referenced: {' · '.join(names)}</p>", unsafe_allow_html=True)
 
             st.markdown("<div class='disclaimer'>⚠️ This analysis is AI-generated and for informational purposes only. It does not constitute a medical diagnosis. Always consult a licensed healthcare professional before making any health decisions.</div>", unsafe_allow_html=True)
 
         else:
-            st.markdown("<div style='background:#0d1526;border:1px solid #1e3a5a;border-radius:8px;padding:20px;text-align:center;color:#4a6a8a;'>Could not process these symptoms. Please try more specific symptom names.</div>", unsafe_allow_html=True)
+            st.markdown("<div style='background:#0d1526;border:1px solid #1e3a5a;border-radius:8px;padding:20px;text-align:center;color:#4a6a8a;font-family:DM Mono,monospace;'>Could not process these symptoms. Please try more specific symptom names.</div>", unsafe_allow_html=True)
 
     elif predict_btn:
         st.warning("Please enter at least one symptom.")
 
-# ════════════════════════════════════════════════════════════════════════════════
+
 # TAB 2 — Disease Encyclopedia
-# ════════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown("<p style='color:#4a6a8a; font-size:13px; margin-bottom:20px;'>Search any disease to get a complete clinical profile from the knowledge base.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#4a6a8a; font-size:13px; margin-bottom:20px; font-family:DM Mono,monospace;'>Search any disease to get a complete clinical profile from the knowledge base.</p>", unsafe_allow_html=True)
 
     disease_query = st.text_input("", placeholder="Type a disease name — e.g., Malaria, Diabetes, Tuberculosis ...", label_visibility="collapsed")
 
@@ -420,7 +406,7 @@ with tab2:
 
             st.markdown(f"""
             <div class='result-wrapper'>
-                <p style='color:#4a6a8a; font-size:11px; letter-spacing:2px; margin:0 0 4px 0;'>DISEASE PROFILE</p>
+                <p class='assessment-label'>DISEASE PROFILE</p>
                 <p class='disease-name'>{selected}</p>
             </div>
             """, unsafe_allow_html=True)
@@ -435,12 +421,12 @@ with tab2:
                 st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#60d090;'>🥗 DIET</div><div class='info-card-content'>{tags_html(diet,'#60d090')}</div></div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='info-card'><div class='info-card-label' style='color:#c080ff;'>🏃 ACTIVITY</div><div class='info-card-content'>{tags_html(work,'#c080ff')}</div></div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='background:#0d1526;border:1px solid #1e3a5a;border-radius:8px;padding:16px;color:#4a6a8a;font-size:13px;'>No exact match for \"<b style='color:#c8d8f0;'>{disease_query}</b>\" in local database. Try the Symptom Analysis tab for AI-powered lookup.</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background:#0d1526;border:1px solid #1e3a5a;border-radius:8px;padding:16px;color:#4a6a8a;font-size:13px;font-family:DM Mono,monospace;'>No exact match for \"<b style='color:#c8d8f0;'>{disease_query}</b>\" in local database. Try the Symptom Analysis tab for AI-powered lookup.</div>", unsafe_allow_html=True)
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <hr class='neo-divider'>
 <p style='text-align:center; color:#1e3a5a; font-size:12px; font-family:DM Mono,monospace;'>
-NEURO-FUSION // Made by <span style='color:#20c4b4;'>R.K.</span> &amp; <span style='color:#20c4b4;'>Shubham</span> · © 2026 · <em>Not a substitute for professional medical advice</em>
+NEURO-FUSION // Made by <span style='color:#20c4b4;'>R.K.</span>· © 2026 · <em>Not a substitute for professional medical advice</em>
 </p>
 """, unsafe_allow_html=True)
