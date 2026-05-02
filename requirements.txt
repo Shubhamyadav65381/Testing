@@ -7,9 +7,8 @@ matplotlib==3.7.2
 seaborn==0.12.2
 
 # ML / Deep Learning
-# tensorflow-cpu 2.13 is INCOMPATIBLE with groq/langchain (typing-extensions conflict).
-# Upgraded to 2.16.x which relaxes the typing-extensions constraint.
 tensorflow-cpu==2.16.2
+tf-keras==2.16.0
 scikit-learn==1.6.1
 lightgbm==4.3.0
 imbalanced-learn==0.12.3
@@ -24,6 +23,7 @@ plotly==5.22.0
 
 # NLP / Fuzzy matching
 thefuzz==0.22.1
+fuzzywuzzy==0.18.0
 python-Levenshtein==0.25.1
 
 # LLM / RAG (Medibot)
@@ -35,8 +35,10 @@ faiss-cpu==1.8.0
 nest_asyncio==1.6.0
 python-dotenv==1.0.1
 sentence-transformers==2.7.0
+transformers==4.41.2
+pydantic==1.10.13
 
-# Shared dependency — explicitly pinned to satisfy all packages above
+# Shared dependency
 typing-extensions==4.12.2
 
 # Model download
