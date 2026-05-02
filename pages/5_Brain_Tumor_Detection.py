@@ -51,14 +51,9 @@ if css_path:
 st.markdown("""
 <style>
 
-/* ===== GLOBAL ===== */
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
 /* ===== HEADER ===== */
 .bt-header {
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 800;
     text-align: center;
     padding: 1rem 0;
@@ -67,17 +62,17 @@ html, body, [class*="css"] {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    text-shadow: 0 0 12px rgba(0,198,255,0.5); /* 🔥 glow */
+    text-shadow: 0 0 8px rgba(0,198,255,0.4); /* toned down */
 }
 
 .bt-sub {
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-align: center;
     color: #bbbbbb;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.5rem;
 }
 
-/* ===== SUCCESS BOX ===== */
+/* ===== SUCCESS (KEEP GREEN) ===== */
 div[data-testid="stAlert"] {
     background: linear-gradient(135deg, #00c853, #64dd17);
     color: white !important;
@@ -86,67 +81,55 @@ div[data-testid="stAlert"] {
     font-weight: 600;
 }
 
-/* ===== STEP CARDS (FIXED COLORS) ===== */
+/* ===== STEP CARDS (FIXED COLOR 🔥) ===== */
 .step-card {
     border-radius: 14px;
     padding: 1.2rem;
     text-align: center;
     margin: 0.5rem 0;
 
-    background: linear-gradient(135deg, #0072ff, #00c6ff); /* 🔥 blue now */
+    background: linear-gradient(135deg, #1f2937, #374151); /* dark cards */
     color: white;
     font-weight: 600;
 
+    border: 1px solid rgba(255,255,255,0.08);
     transition: 0.25s ease;
 }
 
 .step-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0,198,255,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
-/* ===== PREDICTION CARD ===== */
-.pred-card {
-    border-radius: 16px;
-    padding: 1.6rem;
-    text-align: center;
-    margin: 1rem 0;
-
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+/* ===== FILE UPLOADER (IMPROVED) ===== */
+section[data-testid="stFileUploader"] {
+    border: 2px dashed #00c6ff;
+    border-radius: 12px;
+    padding: 1rem;
+    background: rgba(0,198,255,0.05);
 }
 
-/* ===== METRIC BOX ===== */
+/* ===== METRICS ===== */
 .metric-box {
     background: rgba(255,255,255,0.05);
     border-left: 4px solid #00c6ff;
     border-radius: 10px;
     padding: 0.7rem 1rem;
     margin: 0.25rem 0;
-
-    backdrop-filter: blur(10px);
-}
-
-.metric-label {
-    font-size: 0.75rem;
-    color: #aaa;
 }
 
 .metric-value {
-    font-size: 1.2rem;
+    color: white;
     font-weight: 700;
-    color: #ffffff;
 }
 
-/* ===== FILE UPLOADER ===== */
-section[data-testid="stFileUploader"] {
-    border: 2px dashed #00c6ff;
-    border-radius: 12px;
-    padding: 1rem;
-    background: rgba(255,255,255,0.03);
+/* ===== DISCLAIMER ===== */
+.disclaimer {
+    background: rgba(255, 193, 7, 0.08);
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    color: #ffd54f;
 }
 
 /* ===== BUTTON ===== */
@@ -155,31 +138,6 @@ section[data-testid="stFileUploader"] {
     color: white;
     border-radius: 10px;
     border: none;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-}
-
-.stButton>button:hover {
-    opacity: 0.9;
-}
-
-/* ===== DISCLAIMER ===== */
-.disclaimer {
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid #ffc107;
-    border-radius: 10px;
-    padding: 0.8rem 1rem;
-    font-size: 0.85rem;
-    color: #ffd54f;
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
 }
 
 </style>
