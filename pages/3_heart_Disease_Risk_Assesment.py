@@ -24,8 +24,14 @@ with open('models/third_feature_models/cbe_encoder.pkl', 'rb') as encoder_file:
 data = pd.read_csv('models/third_feature_models/brfss2022_data_wrangling_output.zip', compression='zip')
 data['heart_disease'] = data['heart_disease'].apply(lambda x: 1 if x == 'yes' else 0).astype('int')
 
-icon = Image.open("utils/heart_disease.jpg")
-st.set_page_config(layout='wide', page_title='AI-Powered Heart Disease Assessment', page_icon=icon)
+import os
+
+icon_path = "utils/heart_disease.jpg"
+if os.path.exists(icon_path):
+    icon = Image.open(icon_path)
+    st.set_page_config(layout='wide', page_title='AI-Powered Heart Disease Assessment', page_icon=icon)
+else:
+    st.set_page_config(layout='wide', page_title='AI-Powered Heart Disease Assessment', page_icon="❤️")
 st.sidebar.markdown("<h2 style='color: #ffffff;'>📌  Description</h2>", unsafe_allow_html=True)
 st.sidebar.image("utils/ph5.png", use_container_width=True)
 st.sidebar.markdown("<p class='sidebar-text'>This system analyzes health data, lifestyle, and medical history using AI and machine learning to predict heart disease risk and provide personalized recommendations for improving cardiovascular health.</p>", unsafe_allow_html=True)
@@ -33,6 +39,8 @@ st.sidebar.markdown("<p class='sidebar-text'>This system analyzes health data, l
 
 # Custom CSS
 def local_css(file_name):
+    if not os.path.exists(file_name):
+        return  # silently skip if CSS file is missing
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -153,17 +161,17 @@ input_data = {
     'sleep_category': sleep_category,
     'drinks_category': drinks_category
 }
+def get_encoder_feature_names(encoder):
+    """category_encoders uses get_feature_names() not get_feature_names_out()"""
+    if hasattr(encoder, 'get_feature_names_out'):
+        return encoder.get_feature_names_out()
+    return encoder.get_feature_names()
+
 def predict_heart_disease_risk(input_data, model, encoder):
     input_df = pd.DataFrame([input_data])
-
-    # Encode input data
-    input_encoded = pd.DataFrame(encoder.transform(input_df), columns=encoder.get_feature_names_out())
-
-    # Ensure column names match what the model expects
-    expected_features = encoder.get_feature_names_out()
-    input_encoded = input_encoded.reindex(columns=expected_features, fill_value=0)  # Ensure correct ordering
-
-    # Make prediction
+    feature_names = get_encoder_feature_names(encoder)
+    input_encoded = pd.DataFrame(encoder.transform(input_df), columns=feature_names)
+    input_encoded = input_encoded.reindex(columns=feature_names, fill_value=0)
     prediction = model.predict_proba(input_encoded)[:, 1][0] * 100
     return prediction
 
@@ -182,7 +190,9 @@ if btn1:
         with row8_1:
             st.write(f"Predicted Heart Disease Risk: {risk:.2f}%")
             input_df = pd.DataFrame([input_data])
-            input_encoded = encoder.transform(input_df, y=None, override_return_df=False)
+            input_encoded = encoder.transform(input_df)
+            if not isinstance(input_encoded, pd.DataFrame):
+                input_encoded = pd.DataFrame(input_encoded, columns=get_encoder_feature_names(encoder))
 
             # Access LGBMClassifier inside EasyEnsembleClassifier
             lgbm_model = model.estimators_[0].steps[-1][1]
@@ -268,7 +278,7 @@ if btn1:
                 ]
 
                 for feature, condition in additional_features:
-                    if condition:
+                    if condition and feature not in important_features:  # prevent duplicate additions
                         important_features.add(feature)
 
                 # Mapping for feature names to user-friendly names
@@ -299,7 +309,10 @@ if btn1:
                 final_features = []
                 feature_to_recommendation = {}
                 for feature in important_features:
-                    importance = feature_importance_df.loc[feature_importance_df['Feature'] == feature, 'Importance'].values[0]
+                    match = feature_importance_df.loc[feature_importance_df['Feature'] == feature, 'Importance']
+                    if match.empty:
+                        continue  # skip features not found in importance df
+                    importance = match.values[0]
                     if feature == 'ever_diagnosed_with_heart_attack' and heart_attack == "yes":
                         recommendation = f"- History of heart attack contributed {importance:.2f}% to your risk. Regularly visit your cardiologist and adhere to prescribed medications. Monitor any new or worsening symptoms and seek immediate medical attention if needed."
                         feature_to_recommendation[feature] = recommendation
@@ -382,7 +395,11 @@ if btn1:
                         final_features.append(feature)    
 
                 # Calculate the remaining contribution for "Other Factors"
-                total_importance = sum([feature_importance_df.loc[feature_importance_df['Feature'] == feature, 'Importance'].values[0] for feature in final_features])
+                total_importance = sum([
+                    feature_importance_df.loc[feature_importance_df['Feature'] == f, 'Importance'].values[0]
+                    for f in final_features
+                    if not feature_importance_df.loc[feature_importance_df['Feature'] == f, 'Importance'].empty
+                ])
                 other_factors_importance = 100 - total_importance
 
                 # Prepare data for the pie chart
