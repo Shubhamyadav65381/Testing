@@ -2,7 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-from thefuzz import process
+from thefuzz import process  # requires: pip install thefuzz python-Levenshtein
 import ast
 
 st.set_page_config(page_title="Neuro-Fusion: Integrated Disease Prediction & Clinical Intelligence System", page_icon="🩺", layout='wide')
@@ -74,14 +74,14 @@ if st.button("Predict Disease"):
         patient_symptoms = [correct_spelling(symptom) for symptom in patient_symptoms if correct_spelling(symptom)]
         if patient_symptoms:
             predicted_disease = predicted_value(patient_symptoms)
-            dis_des, precautions, medications, rec_diet, workout = information(predicted_disease)
-            
+            dis_des, dis_precautions, dis_medications, rec_diet, rec_workout = information(predicted_disease)
+
             st.success(f"**Predicted Disease:** {predicted_disease}")
             st.write(f"**Description:** {dis_des}")
-            st.write("**Precautions:**", ', '.join(str(item) for item in precautions if item))
-            st.write("**Medications:**", ', '.join(str(item) for item in medications if item))
+            st.write("**Precautions:**", ', '.join(str(item) for item in dis_precautions if item))
+            st.write("**Medications:**", ', '.join(str(item) for item in dis_medications if item))
             st.write("**Recommended Diet:**", ', '.join(str(item) for item in rec_diet if item))
-            st.write("**Recommended Workout:**", ', '.join(str(item) for item in workout if item))
+            st.write("**Recommended Workout:**", ', '.join(str(item) for item in rec_workout if item))
         else:
             st.error("Invalid symptoms detected. Please check and try again.")
     else:
@@ -97,12 +97,12 @@ if disease_query:
     matches = [d for d in disease_names if d.lower().startswith(disease_query.lower())]
     if matches:
         selected_disease = matches[0]
-        dis_des, precautions, medications, rec_diet, workout = information(selected_disease)
+        dis_des, dis_precautions, dis_medications, rec_diet, rec_workout = information(selected_disease)
         st.subheader(f"Recommendations for {selected_disease}")
         st.write(f"**Description:** {dis_des}")
-        st.write("**Precautions:**", ', '.join(str(item) for item in precautions if item))
-        st.write("**Medications:**", ', '.join(str(item) for item in medications if item))
+        st.write("**Precautions:**", ', '.join(str(item) for item in dis_precautions if item))
+        st.write("**Medications:**", ', '.join(str(item) for item in dis_medications if item))
         st.write("**Recommended Diet:**", ', '.join(str(item) for item in rec_diet if item))
-        st.write("**Recommended Workout:**", ', '.join(str(item) for item in workout if item))
+        st.write("**Recommended Workout:**", ', '.join(str(item) for item in rec_workout if item))
     else:
         st.warning("No matching disease found. Try a different name.")
