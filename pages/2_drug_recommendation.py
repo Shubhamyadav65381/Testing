@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import pickle
 import joblib
+import os
 from PIL import Image
 
 st.sidebar.markdown("<h2 style='color: #ffffff;'>📌  Description</h2>", unsafe_allow_html=True)
@@ -44,10 +45,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Image Display
-image = Image.open('utils/medss.png')
+img_path = 'utils/medss.png'
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image(image, width=350)
+    if os.path.exists(img_path):
+        image = Image.open(img_path)
+        st.image(image, width=350)
+    else:
+        st.info("💊 Drug Recommendation System")
 
 # Searchbox
 st.markdown("""
