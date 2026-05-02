@@ -97,12 +97,12 @@ DEFAULT_LABELS = {
 }
 
 DEFAULT_MODEL_INFO = {
-    "overall_accuracy": 0.93,
-    "macro_auc":        0.98,
-    "kappa":            0.91,
+    "overall_accuracy": 0.98,
+    "macro_auc":        0.99,
+    "kappa":            0.97,
     "per_class_accuracy": {
-        "glioma": 0.95, "meningioma": 0.90,
-        "notumor": 0.98, "other": 0.88, "pituitary": 0.96
+        "glioma": 0.953, "meningioma": 0.957,
+        "notumor": 0.995, "other": 0.995, "pituitary": 0.996
     }
 }
 
