@@ -26,17 +26,21 @@ thefuzz==0.22.1
 fuzzywuzzy==0.18.0
 python-Levenshtein==0.25.1
 
-# LLM / RAG (Medibot)
-langchain==0.2.16
-langchain-groq==0.1.9
-langchain-community==0.2.16
-langchain-huggingface==0.0.3
+# LLM / RAG (Medibot) — updated for Pydantic v2 compatibility
+langchain==0.3.25
+langchain-groq==0.2.5
+langchain-community==0.3.24
+langchain-huggingface==0.1.2
+langchain-core==0.3.58
 faiss-cpu==1.8.0
 nest_asyncio==1.6.0
 python-dotenv==1.0.1
-sentence-transformers==2.7.0
+sentence-transformers==3.0.1
 transformers==4.41.2
-pydantic==1.10.13
+
+# Pydantic v2 — fixes KeyError on FAISS vectorstore deserialization
+pydantic==2.7.4
+pydantic-settings==2.3.4
 
 # Shared dependency
 typing-extensions==4.12.2
