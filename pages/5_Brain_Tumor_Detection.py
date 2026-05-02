@@ -51,62 +51,81 @@ if css_path:
 st.markdown("""
 <style>
 
+/* ===== GLOBAL ===== */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
 /* ===== HEADER ===== */
 .bt-header {
     font-size: 2.5rem;
     font-weight: 800;
     text-align: center;
-    padding: 1rem 0;
+    padding: 0.8rem 0;
 
     background: linear-gradient(90deg, #00c6ff, #0072ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    text-shadow: 0 0 8px rgba(0,198,255,0.4); /* toned down */
+    text-shadow: 0 0 8px rgba(0,198,255,0.35);
+    margin-bottom: 0.3rem;
 }
 
 .bt-sub {
     font-size: 0.95rem;
     text-align: center;
-    color: #bbbbbb;
-    margin-bottom: 1.5rem;
+    color: #b0b0b0;
+    margin-bottom: 1.4rem;
 }
 
-/* ===== SUCCESS (KEEP GREEN) ===== */
+/* ===== SUCCESS BOX (SOFT GREEN FIX) ===== */
 div[data-testid="stAlert"] {
-    background: linear-gradient(135deg, #00c853, #64dd17);
-    color: white !important;
+    background: rgba(76, 175, 80, 0.08);
+    backdrop-filter: blur(10px);
+
+    color: #c8e6c9 !important;
+
+    border: 1px solid rgba(76, 175, 80, 0.25);
     border-radius: 12px;
     padding: 12px;
     font-weight: 600;
 }
 
-/* ===== STEP CARDS (FIXED COLOR 🔥) ===== */
+div[data-testid="stAlert"] svg {
+    color: #66bb6a !important;
+}
+
+/* ===== STEP CARDS ===== */
 .step-card {
     border-radius: 14px;
-    padding: 1.2rem;
+    padding: 1.1rem;
     text-align: center;
-    margin: 0.5rem 0;
+    margin: 0.4rem 0;
 
-    background: linear-gradient(135deg, #1f2937, #374151); /* dark cards */
+    background: linear-gradient(135deg, #1f2937, #374151);
     color: white;
     font-weight: 600;
 
     border: 1px solid rgba(255,255,255,0.08);
-    transition: 0.25s ease;
+    transition: all 0.25s ease;
+    cursor: pointer;
 }
 
 .step-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 6px 20px rgba(0,198,255,0.2);
 }
 
-/* ===== FILE UPLOADER (IMPROVED) ===== */
+/* ===== FILE UPLOADER ===== */
 section[data-testid="stFileUploader"] {
     border: 2px dashed #00c6ff;
     border-radius: 12px;
     padding: 1rem;
-    background: rgba(0,198,255,0.05);
+    background: rgba(0,198,255,0.04);
+}
+
+section[data-testid="stFileUploader"] span {
+    color: #e0e0e0 !important;
 }
 
 /* ===== METRICS ===== */
@@ -118,9 +137,15 @@ section[data-testid="stFileUploader"] {
     margin: 0.25rem 0;
 }
 
+.metric-label {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
 .metric-value {
-    color: white;
+    font-size: 1.2rem;
     font-weight: 700;
+    color: #ffffff;
 }
 
 /* ===== DISCLAIMER ===== */
@@ -128,7 +153,8 @@ section[data-testid="stFileUploader"] {
     background: rgba(255, 193, 7, 0.08);
     border: 1px solid #ffc107;
     border-radius: 10px;
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
     color: #ffd54f;
 }
 
@@ -138,6 +164,26 @@ section[data-testid="stFileUploader"] {
     color: white;
     border-radius: 10px;
     border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.stButton>button:hover {
+    opacity: 0.9;
+}
+
+/* ===== SIDEBAR ===== */
+section[data-testid="stSidebar"] {
+    background: rgba(20,20,30,0.95);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
 }
 
 </style>
