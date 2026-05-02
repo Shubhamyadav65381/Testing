@@ -418,9 +418,15 @@ uploaded = st.file_uploader(
 
 if uploaded is None:
     c1, c2, c3 = st.columns(3)
-    c1.info("**📤 Step 1**\nUpload a brain MRI image")
-    c2.info("**⚡ Step 2**\nModel classifies in seconds")
-    c3.info("**📋 Step 3**\nReview prediction + GradCAM")
+
+    with c1:
+        st.markdown("<div class='step-card'>📤 Step 1 Upload MRI</div>", unsafe_allow_html=True)
+
+    with c2:
+        st.markdown("<div class='step-card'>⚡ Step 2 Model Prediction</div>", unsafe_allow_html=True)
+
+    with c3:
+        st.markdown("<div class='step-card'>📊 Step 3 View Results + GradCAM</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='disclaimer'>
     ⚕️ <strong>Medical Disclaimer:</strong> For research and educational purposes only.
