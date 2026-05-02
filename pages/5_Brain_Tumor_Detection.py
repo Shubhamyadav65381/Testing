@@ -5,7 +5,6 @@ Model downloads from Google Drive on first run (not stored in GitHub)
 """
 
 import streamlit as st
-import tensorflow as tf
 import numpy as np
 import json
 import os
@@ -13,6 +12,14 @@ import gdown
 from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.cm as mpl_cm
+
+# TF 2.16+ moved Keras to a standalone package; handle both cases
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+except ImportError:
+    import keras
+    import tensorflow as tf
 
 # ─────────────────────────────────────────────
 # PAGE CONFIG  (must be first Streamlit call)
@@ -145,7 +152,10 @@ def load_model():
 
     try:
         # PatchedDense strips quantization_config added by Keras 3.4+
-        from tensorflow.keras.layers import Dense as _Dense
+        try:
+            from tensorflow.keras.layers import Dense as _Dense
+        except ImportError:
+            from keras.layers import Dense as _Dense
 
         class PatchedDense(_Dense):
             @classmethod
@@ -153,16 +163,30 @@ def load_model():
                 config.pop("quantization_config", None)
                 return super().from_config(config)
 
-        model = tf.keras.models.load_model(
-            MODEL_PATH,
-            compile=False,
-            custom_objects={"Dense": PatchedDense}
-        )
-        model.compile(
-            optimizer=tf.keras.optimizers.Adam(1e-5),
-            loss="categorical_crossentropy",
-            metrics=["accuracy"]
-        )
+        try:
+            model = tf.keras.models.load_model(
+                MODEL_PATH,
+                compile=False,
+                custom_objects={"Dense": PatchedDense}
+            )
+            model.compile(
+                optimizer=tf.keras.optimizers.Adam(1e-5),
+                loss="categorical_crossentropy",
+                metrics=["accuracy"]
+            )
+        except Exception:
+            # Fallback for keras standalone package
+            import keras as keras_standalone
+            model = keras_standalone.models.load_model(
+                MODEL_PATH,
+                compile=False,
+                custom_objects={"Dense": PatchedDense}
+            )
+            model.compile(
+                optimizer="adam",
+                loss="categorical_crossentropy",
+                metrics=["accuracy"]
+            )
         return model
     except Exception as e:
         st.error(f"Model load error: {e}")
@@ -206,7 +230,11 @@ def preprocess(img: Image.Image) -> np.ndarray:
 # ─────────────────────────────────────────────
 def gradcam(model, arr, layer="block5_conv3"):
     try:
-        gm = tf.keras.Model(
+        try:
+            Model = tf.keras.Model
+        except AttributeError:
+            from keras import Model
+        gm = Model(
             inputs=model.inputs,
             outputs=[model.get_layer(layer).output, model.output]
         )
