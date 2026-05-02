@@ -26,8 +26,17 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 # LOAD SHARED CSS  (same style_v1.css your other pages use)
 # ─────────────────────────────────────────────
-css_path = os.path.join(os.path.dirname(__file__), '..', 'style_v1.css')
-if os.path.exists(css_path):
+css_path = None
+for candidate in [
+    os.path.join("utils", "style_v1.css"),
+    os.path.join(os.path.dirname(__file__), '..', 'utils', 'style_v1.css'),
+    os.path.join(os.path.dirname(__file__), '..', 'style_v1.css'),
+]:
+    if os.path.exists(candidate):
+        css_path = candidate
+        break
+
+if css_path:
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -216,7 +225,11 @@ def gradcam(model, arr, layer="block5_conv3"):
 
 def overlay(img: Image.Image, hm: np.ndarray, alpha=0.4):
     hm_r    = np.array(Image.fromarray(np.uint8(255 * hm)).resize(IMAGE_SIZE))
-    colored = np.uint8(mpl_cm.get_cmap("jet")(hm_r)[:, :, :3] * 255)
+    try:
+        cmap = plt.colormaps["jet"]
+    except AttributeError:
+        cmap = mpl_cm.get_cmap("jet")  # fallback for older matplotlib
+    colored = np.uint8(cmap(hm_r)[:, :, :3] * 255)
     orig    = np.array(img.convert("RGB").resize(IMAGE_SIZE), dtype=np.float32)
     ov      = np.uint8(orig * (1 - alpha) + colored * alpha)
     return Image.fromarray(ov), Image.fromarray(colored)
