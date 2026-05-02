@@ -696,7 +696,7 @@ hr { border-color: var(--border-dim) !important; }
 # CONSTANTS  (unchanged)
 # ─────────────────────────────────────────────
 IMAGE_SIZE      = (224, 224)
-MODEL_DRIVE_ID  = "1XQOEyJXJ62QYdvK5noT4w8RTXNwF5tsb"
+MODEL_DRIVE_ID = "182-lKxcwQUDxs4so2jcql5N8yy6JUsjO"
 MODEL_PATH      = "best_model.h5"
 
 DEFAULT_LABELS = {
