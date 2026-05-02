@@ -67,7 +67,7 @@ html, body, [class*="css"] {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0,198,255,0.5); /* 🔥 glow */
 }
 
 .bt-sub {
@@ -75,6 +75,34 @@ html, body, [class*="css"] {
     text-align: center;
     color: #bbbbbb;
     margin-bottom: 1.8rem;
+}
+
+/* ===== SUCCESS BOX ===== */
+div[data-testid="stAlert"] {
+    background: linear-gradient(135deg, #00c853, #64dd17);
+    color: white !important;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+}
+
+/* ===== STEP CARDS (FIXED COLORS) ===== */
+.step-card {
+    border-radius: 14px;
+    padding: 1.2rem;
+    text-align: center;
+    margin: 0.5rem 0;
+
+    background: linear-gradient(135deg, #0072ff, #00c6ff); /* 🔥 blue now */
+    color: white;
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,198,255,0.3);
 }
 
 /* ===== PREDICTION CARD ===== */
@@ -91,25 +119,13 @@ html, body, [class*="css"] {
     box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
 
-.pred-label {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    margin-top: 0.5rem;
-}
-
-.pred-conf {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
 /* ===== METRIC BOX ===== */
 .metric-box {
     background: rgba(255,255,255,0.05);
     border-left: 4px solid #00c6ff;
     border-radius: 10px;
-    padding: 0.8rem 1rem;
-    margin: 0.4rem 0;
+    padding: 0.7rem 1rem;
+    margin: 0.25rem 0;
 
     backdrop-filter: blur(10px);
 }
@@ -120,28 +136,17 @@ html, body, [class*="css"] {
 }
 
 .metric-value {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #ffffff;
 }
 
-/* ===== DISCLAIMER ===== */
-.disclaimer {
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid #ffc107;
-    border-radius: 10px;
-    padding: 0.8rem 1rem;
-    font-size: 0.85rem;
-    color: #ffd54f;
-}
-
-/* ===== SUCCESS BOX ===== */
-div[data-testid="stAlert"] {
-    background: linear-gradient(135deg, #00c853, #64dd17);
-    color: white !important;
+/* ===== FILE UPLOADER ===== */
+section[data-testid="stFileUploader"] {
+    border: 2px dashed #00c6ff;
     border-radius: 12px;
-    padding: 12px;
-    font-weight: 600;
+    padding: 1rem;
+    background: rgba(255,255,255,0.03);
 }
 
 /* ===== BUTTON ===== */
@@ -158,16 +163,14 @@ div[data-testid="stAlert"] {
     opacity: 0.9;
 }
 
-/* ===== FILE UPLOADER ===== */
-section[data-testid="stFileUploader"] {
-    border: 2px dashed rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 1rem;
-}
-
-/* ===== SIDEBAR ===== */
-section[data-testid="stSidebar"] {
-    background: rgba(20,20,30,0.9);
+/* ===== DISCLAIMER ===== */
+.disclaimer {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    color: #ffd54f;
 }
 
 /* ===== SCROLLBAR ===== */
