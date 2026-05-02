@@ -868,7 +868,7 @@ def prob_chart(probs, labels):
     ax.tick_params(axis="y", labelsize=8.5, colors="#aaa", length=0)
     ax.tick_params(axis="x", labelsize=7, colors="#555", length=0)
     ax.spines[:].set_visible(False)
-    ax.grid(axis="x", color="rgba(255,255,255,0.04)", linewidth=0.5, linestyle="-")
+    ax.grid(axis="x", color=(1, 1, 1, 0.04), linewidth=0.5, linestyle="-")
     for bar, p, c in zip(bars, ps, cs):
         ax.text(bar.get_width() + 1.5, bar.get_y() + bar.get_height() / 2,
                 f"{p*100:.1f}%", va="center", fontsize=8, fontweight="bold",
